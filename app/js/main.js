@@ -1,17 +1,19 @@
 
 
-var app = angular.module('myApp', ['google-maps']);
-var person = prompt("Please Enter Your Name","SpongeBob");
+var app = angular.module('myApp', []);
+var person = prompt("Please Enter A Username","SpongeBob");
 /*STARTUP STUFF*/
 var x = document.getElementById("geo");
-var conn = new WebSocket('ws://192.168.0.6:8080');
+var conn = new WebSocket('ws://54.201.124.156:8080');
 var img_url;
 conn.onopen = function(e) {
     console.log("Connection established!");
 };
 
 conn.onmessage = function(e) {
-   document.getElementById("p1").innerHTML+="<br>"+e.data;
+	console.log(e.data);
+	img_url = "http://maps.googleapis.com/maps/api/staticmap?center="+e.data+"&zoom=14&size=400x300&sensor=false";
+   document.getElementById("incoming_messages").innerHTML+="<br>"+e.data+"<img src="+img_url+">"+"<br>";
 };
 
 
@@ -35,21 +37,22 @@ img_url:""
 $scope.showPosition = function (position) {
 $scope.geo.lat = position.coords.latitude;
 $scope.geo.lng = position.coords.longitude;
-var latlon = $scope.geo.lat+","+scope.geo.lng;
+var latlon = $scope.geo.lat+","+$scope.geo.lng;
 $scope.geo.img_url = "http://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false";
-document.getElementById("mapholder").innerHTML = "<img src='"+$scope.geo.img_url+"'>";
 };
 
 
 //sendMessage
  $scope.sendMessage = function() {
-conn.send($scope.message.text);
+conn.send(person + ": "+ $scope.message.text);
+document.getElementById("incoming_messages").innerHTML+="<br>"+person+": "+$scope.message.text;
 };
 
 //sendGeo
 
 $scope.sendGeo = function() {
-conn.send("My current location is " + $scope.geo.lat + ", " + $scope.geo.lng);
+conn.send($scope.geo.lat + "," + $scope.geo.lng);
+document.getElementById("incoming_messages").innerHTML+="<br>"+$scope.geo.lat + ", " + $scope.geo.lng+ "<img src="+$scope.geo.img_url+">" ;
 
 };
 
@@ -75,7 +78,7 @@ switch(error.code) {
 //getGeo
 $scope.getGeo = function() {
 if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition($scope.showPosition,$scope.showError);
+        navigator.geolocation.getCurrentPosition($scope.showPosition,$scope.showError,{enableHighAccuracy:true});
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }

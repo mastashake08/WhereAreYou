@@ -2,39 +2,41 @@
 <html ng-app="myApp">
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
     <script src="js/main.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
+
 </head>
-<title>{{ name}}</title>
 <body>
-{{ name }}
-<div ng-controller="MessageController">
+<div class ="container">
+<div class ="header"><h1>{{ name }}</h1></div>
+<div align="center" class="jumbotron" ng-controller="MessageController">
 <input type="text" ng-model="message.text" id="message"></input>
-<button ng-click="sendMessage()">Send Message </button>
-<br>
-<button ng-click="getGeo()"> Get Location </button>
-<button ng-click="sendGeo()">Send Location </button>
+<button class="btn btn-sm  btn-primary" ng-click="sendMessage()">Send Message </button>
+<br><br>
+<button class="btn btn-sm btn-success" ng-click="getGeo()"> Get Location </button>
+<button class="btn btn-sm btn-primary" ng-click="sendGeo()">Send Location </button>
 <p id="geo" ng-model="geo">
-{{geo.lat}}, {{geo.lng}}
+<h4>{{geo.lat}}, {{geo.lng}}</h4>
+<img src={{geo.img_url}} />
 <br>
 </p>
-<div id="mapholder"></div>
 <br>
-<p id="p1"></p>
-<h5> Your message: {{message.text}} </h5>
+<h3> Your message: {{message.text}} </h3>
+<div >
+	<p class="alert alert-info" role="alert" id="incoming_messages"></p>
 </div>
-<script>
-function showPosition(position) {
-var latlon = position.coords.latitude + "," + position.coords.longitude;
-
-    var img_url = "http://maps.googleapis.com/maps/api/staticmap?center= "+latlon+"&zoom=14&size=400x300&sensor=false";
-
-    x.innerHTML = "Latitude: " + position.coords.latitude +
-    "<br>Longitude: " + position.coords.longitude + "<img src='"+img_url+"'>"+"<br><br>";
-	conn.send(person+": "+ "Here are my coordinates" +"<br>"+ x.innerHTML);
-}
-
-
-</script>
-
+</div>
+</div>
 </body>
 </html>
