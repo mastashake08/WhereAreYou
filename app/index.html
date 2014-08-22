@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<title>{{ name}}</title>
+<body>
+{{ name }}
+<div ng-controller="MessageController">
+<input type="text" ng-model="message.text" id="message"></input>
+<button ng-click="sendMessage()">Send Message </button>
+<br>
+<button ng-click="getGeo()"> Get Location </button>
+<button ng-click="sendGeo()">Send Location </button>
+<p id="geo" ng-model="geo">
+{{geo.lat}}, {{geo.lng}}
+<br>
+</p>
+<div id="mapholder"></div>
+<br>
+<p id="p1"></p>
+<h5> Your message: {{message.text}} </h5>
+</div>
+<script>
+function showPosition(position) {
+var latlon = position.coords.latitude + "," + position.coords.longitude;
+
+    var img_url = "http://maps.googleapis.com/maps/api/staticmap?center= "+latlon+"&zoom=14&size=400x300&sensor=false";
+
+    x.innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude + "<img src='"+img_url+"'>"+"<br><br>";
+	conn.send(person+": "+ "Here are my coordinates" +"<br>"+ x.innerHTML);
+}
+
+
+</script>
+
+</body>
+</html>
